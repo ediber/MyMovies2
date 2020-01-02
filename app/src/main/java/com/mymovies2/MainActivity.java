@@ -8,6 +8,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
+
+
+/*api key
+
+        a921476d861fb36a167704c00cb03bfb
+
+        https://api.themoviedb.org/3/movie/top_rated?api_key=a921476d861fb36a167704c00cb03bfb&language=en-US&page=1
+
+        https://api.themoviedb.org/3/movie/upcoming?api_key=a921476d861fb36a167704c00cb03bfb&language=en-US&page=1*/
+
 public class MainActivity extends AppCompatActivity {
 
     private FrameLayout frame;
