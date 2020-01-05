@@ -4,14 +4,23 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mymovies2.data.Movie;
+import com.mymovies2.data.IMovieHeadline;
+import com.mymovies2.data.MoviesList;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 public class GetMoviesTask extends AsyncTask <String, String, String> {
+
+    private IMoviesListListener listListener;
+
+    public GetMoviesTask(IMoviesListListener listListener) {
+        this.listListener = listListener;
+    }
+
     @Override
     protected String doInBackground(String... strings) {
         String message = "";
@@ -50,7 +59,9 @@ public class GetMoviesTask extends AsyncTask <String, String, String> {
         super.onPostExecute(s);
 
         Gson gson = new GsonBuilder().create();
-        Movie collection = gson.fromJson(s, Movie.class);
+        MoviesList moviesList = gson.fromJson(s, MoviesList.class);
+
+        listListener.onMoviesReady(moviesList);
 
       /*  Type listType = new TypeToken<ArrayList<RecipeJson>>(){}.getType();
         List<RecipeJson> recipes = new Gson().fromJson(s, listType);
@@ -59,6 +70,9 @@ public class GetMoviesTask extends AsyncTask <String, String, String> {
       /*  Type listType = new TypeToken<ArrayList<Recipe>>(){}.getType();
         List<Recipe> recipes = new Gson().fromJson(s, listType);
         listener.onReady(recipes);*/
+    }
 
+    public interface IMoviesListListener{
+        void onMoviesReady(MoviesList movies);
     }
 }

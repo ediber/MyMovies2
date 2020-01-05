@@ -27,7 +27,12 @@ public class DAO {
     public void getMoviesList(IMoviesListListener headlinesList){
         this.headlinesList = headlinesList;
 
-        GetMoviesTask task = new GetMoviesTask();
+        GetMoviesTask task = new GetMoviesTask(new GetMoviesTask.IMoviesListListener() {
+            @Override
+            public void onMoviesReady(MoviesList movies) {
+
+            }
+        });
         task.execute(); // start doingBackGround
     }
 
