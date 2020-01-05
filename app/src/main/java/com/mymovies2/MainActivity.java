@@ -30,5 +30,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.add(R.id.main_frame, selectedMoviesFragment).commit();
 
 
+
+
     }
 }
