@@ -1,10 +1,12 @@
-package com.mymovies2;
+package com.mymovies2.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.mymovies2.R;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +19,7 @@ public class SelectedAdapter extends RecyclerView.Adapter {
     private Context context;
     List<String> lst;           //
 
-    SelectedAdapter(Context context) {
+    public SelectedAdapter(Context context) {
         lst = Arrays.asList(new String[]{"s", "dd", "gggg"});
         this.context = context;
     }

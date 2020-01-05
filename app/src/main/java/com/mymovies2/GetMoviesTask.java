@@ -1,0 +1,64 @@
+package com.mymovies2;
+
+import android.os.AsyncTask;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.mymovies2.data.Movie;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class GetMoviesTask extends AsyncTask <String, String, String> {
+    @Override
+    protected String doInBackground(String... strings) {
+        String message = "";
+        URL url;
+        HttpURLConnection urlConnection = null;
+        try {
+            url = new URL("https://api.themoviedb.org/3/movie/top_rated?api_key=a921476d861fb36a167704c00cb03bfb&language=en-US&page=1");
+
+            urlConnection = (HttpURLConnection) url.openConnection();
+
+            InputStream in = urlConnection.getInputStream();
+
+            InputStreamReader isw = new InputStreamReader(in);
+
+            int data = isw.read();
+            while (data != -1) {
+                char current = (char) data;
+                data = isw.read();
+                //System.out.print(current);
+                message = message + current;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+        }
+
+        return message; // on return onPostExecute starts on main thread
+    }
+
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+
+        Gson gson = new GsonBuilder().create();
+        Movie collection = gson.fromJson(s, Movie.class);
+
+      /*  Type listType = new TypeToken<ArrayList<RecipeJson>>(){}.getType();
+        List<RecipeJson> recipes = new Gson().fromJson(s, listType);
+        listener.onReady(recipes);*/
+
+      /*  Type listType = new TypeToken<ArrayList<Recipe>>(){}.getType();
+        List<Recipe> recipes = new Gson().fromJson(s, listType);
+        listener.onReady(recipes);*/
+
+    }
+}
