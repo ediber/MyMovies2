@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +35,14 @@ public class SelectedMoviesFragment extends Fragment {
         // Inflate the layout for this fragment
          View view = inflater.inflate(R.layout.fragment_selected_movies, container, false);
 
-         return view;
+
+        RecyclerView recycler = view.findViewById(R.id.recycler);
+        SelectedAdapter adapter = new SelectedAdapter(getContext());
+        recycler.setAdapter(adapter);
+        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+        return view;
     }
 
 
