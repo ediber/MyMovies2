@@ -17,13 +17,19 @@ import com.mymovies2.adapters.SelectedAdapter;
 public class SelectedMoviesFragment extends Fragment {
 
 
+    private fragmentInteractionListener listener;
+
     public SelectedMoviesFragment() {
         // Required empty public constructor
     }
 
+    public SelectedMoviesFragment(fragmentInteractionListener listener) {
+        this.listener = listener;
+    }
 
-    public static SelectedMoviesFragment newInstance() {
-        SelectedMoviesFragment fragment = new SelectedMoviesFragment();
+
+    public static SelectedMoviesFragment newInstance(fragmentInteractionListener listener) {
+        SelectedMoviesFragment fragment = new SelectedMoviesFragment(listener);
 
         return fragment;
     }
@@ -35,8 +41,14 @@ public class SelectedMoviesFragment extends Fragment {
         // Inflate the layout for this fragment
          View view = inflater.inflate(R.layout.fragment_selected_movies, container, false);
 
+         view.findViewById(R.id.selected_movies_add).setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 listener.onAddClicked();
+             }
+         });
 
-        RecyclerView recycler = view.findViewById(R.id.recycler);
+        RecyclerView recycler = view.findViewById(R.id.selected_movies_recycler);
         SelectedAdapter adapter = new SelectedAdapter(getContext());
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -44,6 +56,11 @@ public class SelectedMoviesFragment extends Fragment {
 
         return view;
     }
+
+    public interface fragmentInteractionListener{
+        void onAddClicked();
+    }
+
 
 
 }

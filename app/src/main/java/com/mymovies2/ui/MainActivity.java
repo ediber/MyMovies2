@@ -40,10 +40,18 @@ public class MainActivity extends AppCompatActivity {
 
         frame = findViewById(R.id.main_frame);
 
-        selectedMoviesFragment = SelectedMoviesFragment.newInstance();
+        selectedMoviesFragment = SelectedMoviesFragment.newInstance(new SelectedMoviesFragment.fragmentInteractionListener() {
+            @Override
+            public void onAddClicked() {
+                // move to MovieDBFragment
+                MovieDBFragment fragment = MovieDBFragment.newInstance();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.main_frame, fragment).commit();
+            }
+        });
 
         fragmentManager = getSupportFragmentManager();
-
+        // move to selectedMoviesFragment
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(R.id.main_frame, selectedMoviesFragment).commit();
 

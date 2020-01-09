@@ -28,7 +28,7 @@ public class SelectedAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater mInflater = LayoutInflater.from(context);
-        View view = mInflater.inflate(R.layout.row, parent, false);
+        View view = mInflater.inflate(R.layout.selected_row, parent, false);
         return new MyViewHolder(view);
     }
 
