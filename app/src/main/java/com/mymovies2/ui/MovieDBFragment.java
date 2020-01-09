@@ -44,7 +44,12 @@ public class MovieDBFragment extends Fragment {
         DAO.getInstance().getMoviesList(new DAO.IMoviesListListener() {
             @Override
             public void onMoviesReady(List<IMovieHeadline> headlines) {
-                MovieDBAdapter adapter = new MovieDBAdapter(headlines, getContext());
+                MovieDBAdapter adapter = new MovieDBAdapter(headlines, getContext(), new MovieDBAdapter.AdapterListener() {
+                    @Override
+                    public void onLongClicked(IMovieHeadline headline) {
+                        DAO.getInstance().addToSelected(headline);
+                    }
+                });
                 recycler.setAdapter(adapter);
                 recycler.setLayoutManager(new LinearLayoutManager(getContext()));
             }

@@ -38,6 +38,10 @@ public class DAO {
         task.execute(); // start doingBackGround
     }
 
+    public void addToSelected(IMovieHeadline headline) {
+        //TODO
+    }
+
     public interface IMoviesListListener{
         void onMoviesReady(List<IMovieHeadline> headlines);
     }

@@ -18,12 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MovieDBAdapter extends RecyclerView.Adapter {
 
+    private  AdapterListener listener;
     private Context context;
     private List<IMovieHeadline> headlines;
 
-    public MovieDBAdapter(List<IMovieHeadline> headlines, Context context) {
+    public MovieDBAdapter(List<IMovieHeadline> headlines, Context context, AdapterListener listener) {
         this.headlines = headlines;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -42,8 +44,17 @@ public class MovieDBAdapter extends RecyclerView.Adapter {
         ImageView poster = myHolder.poster;
         String url = "https://image.tmdb.org/t/p/original///" + headline.getPoster_path();
 
-        Picasso.get().load(url)
-                .into(poster);
+        Picasso.get().load(url).into(poster);
+
+        myHolder.parent.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -53,6 +64,7 @@ public class MovieDBAdapter extends RecyclerView.Adapter {
 
     private class MyViewHolder extends RecyclerView.ViewHolder {
 
+        public View parent;
         public ImageView poster;
         public TextView title;
 
@@ -60,6 +72,11 @@ public class MovieDBAdapter extends RecyclerView.Adapter {
             super(view);
             title = view.findViewById(R.id.db_row_title);
             poster = view.findViewById(R.id.db_row_poster);
+            parent = view.findViewById(R.id.db_row_parent);
         }
+    }
+
+    public interface AdapterListener{
+        void onLongClicked(IMovieHeadline headline);
     }
 }
