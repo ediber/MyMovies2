@@ -5,4 +5,10 @@ public interface IMovieHeadline {
 
     String getPoster_path();
 
+    boolean getIsSelected();
+
+    void setIsSelected(boolean selected);
+
+    String getId();
+
 }

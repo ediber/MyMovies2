@@ -20,15 +20,21 @@ import java.util.List;
 
 public class MovieDBFragment extends Fragment {
 
+    private FragmentListener listener;
     private RecyclerView recycler;
+    private View save;
 
     public MovieDBFragment() {
         // Required empty public constructor
     }
 
+    public MovieDBFragment(FragmentListener listener) {
+        this.listener = listener;
+    }
 
-    public static MovieDBFragment newInstance() {
-        MovieDBFragment fragment = new MovieDBFragment();
+
+    public static MovieDBFragment newInstance(FragmentListener listener) {
+        MovieDBFragment fragment = new MovieDBFragment(listener);
         return fragment;
     }
 
@@ -40,14 +46,17 @@ public class MovieDBFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_movie_db, container, false);
 
         recycler = view.findViewById(R.id.movie_db_recycler);
+        save = view.findViewById(R.id.movie_db_save);
+
 
         DAO.getInstance().getMoviesList(new DAO.IMoviesListListener() {
             @Override
             public void onMoviesReady(List<IMovieHeadline> headlines) {
-                MovieDBAdapter adapter = new MovieDBAdapter(headlines, getContext(), new MovieDBAdapter.AdapterListener() {
+                List<IMovieHeadline> selected = DAO.getInstance().getSelectedMovies();
+                MovieDBAdapter adapter = new MovieDBAdapter(headlines, selected, getContext(), new MovieDBAdapter.AdapterListener() {
                     @Override
                     public void onLongClicked(IMovieHeadline headline) {
-                        DAO.getInstance().addToSelected(headline);
+                        DAO.getInstance().changeSelected(headline);
                     }
                 });
                 recycler.setAdapter(adapter);
@@ -55,8 +64,18 @@ public class MovieDBFragment extends Fragment {
             }
         });
 
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onSaveClicked();
+            }
+        });
+
         return view;
     }
 
 
+    public interface FragmentListener{
+        void onSaveClicked();
+    }
 }

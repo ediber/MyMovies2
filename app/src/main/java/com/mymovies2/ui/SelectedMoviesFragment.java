@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.mymovies2.R;
 import com.mymovies2.adapters.SelectedAdapter;
+import com.mymovies2.data.DAO;
 
 
 public class SelectedMoviesFragment extends Fragment {
@@ -49,7 +50,7 @@ public class SelectedMoviesFragment extends Fragment {
          });
 
         RecyclerView recycler = view.findViewById(R.id.selected_movies_recycler);
-        SelectedAdapter adapter = new SelectedAdapter(getContext());
+        SelectedAdapter adapter = new SelectedAdapter(getContext(), DAO.getInstance().getSelectedMovies());
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
 

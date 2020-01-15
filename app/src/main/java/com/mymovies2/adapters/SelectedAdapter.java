@@ -4,11 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mymovies2.R;
+import com.mymovies2.data.IMovieHeadline;
+import com.squareup.picasso.Picasso;
 
-import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -17,10 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SelectedAdapter extends RecyclerView.Adapter {
 
     private Context context;
-    List<String> lst;           //
+  //  private List<String> lst;           //
+    private List<IMovieHeadline> headlines;
 
-    public SelectedAdapter(Context context) {
-        lst = Arrays.asList(new String[]{"s", "dd", "gggg"});
+    public SelectedAdapter(Context context, List<IMovieHeadline> headlines) {
+//        lst = Arrays.asList(new String[]{"s", "dd", "gggg"});
+        this.headlines = headlines;
         this.context = context;
     }
 
@@ -34,24 +38,32 @@ public class SelectedAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        TextView text = ((MyViewHolder)holder).text;
-        String item = lst.get(position);
-        text.setText(item);
+        MyViewHolder myHolder = ((MyViewHolder)holder);
+        TextView title = myHolder.title;
+        ImageView image = myHolder.image;
+        IMovieHeadline movie = headlines.get(position);
+        title.setText(movie.getTitle());
+
+        String url = "https://image.tmdb.org/t/p/original///" + movie.getPoster_path();
+        Picasso.get().load(url).into(image);
 
     }
 
     @Override
     public int getItemCount() {
-        return lst.size();
+//        return lst.size();
+        return headlines.size();
     }
 
     private class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView text;
+        private ImageView image;
+        public TextView title;
 
         public MyViewHolder(View view) {
             super(view);
-            text = view.findViewById(R.id.row_text0);
+            title = view.findViewById(R.id.selected_row_title);
+            image = view.findViewById(R.id.selected_row_poster);
         }
     }
 }

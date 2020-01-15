@@ -7,12 +7,13 @@ import java.util.List;
 public class DAO {
     // static variable single_instance of type Singleton
     private static DAO single_instance = null;
+    private Container container;
     private IMoviesListListener _headlinesListener;
 
 
     // private constructor restricted to this class itself
     private DAO() {
-
+        container = new Container();
     }
 
     // static method to create instance of Singleton class
@@ -32,14 +33,19 @@ public class DAO {
             @Override
             public void onMoviesReady(MoviesList movies) {
                 List<IMovieHeadline> headlines = movies.getHeadlineResults();
+                container.setHeadlines(headlines);
                 _headlinesListener.onMoviesReady(headlines);
             }
         });
         task.execute(); // start doingBackGround
     }
 
-    public void addToSelected(IMovieHeadline headline) {
-        //TODO
+    public void changeSelected(IMovieHeadline headline) {
+        container.changeSelected(headline);
+    }
+
+    public List<IMovieHeadline> getSelectedMovies() {
+        return container.getSelectedMovies();
     }
 
     public interface IMoviesListListener{

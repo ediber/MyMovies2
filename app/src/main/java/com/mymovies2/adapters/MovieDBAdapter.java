@@ -11,6 +11,8 @@ import com.mymovies2.R;
 import com.mymovies2.data.IMovieHeadline;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -21,11 +23,22 @@ public class MovieDBAdapter extends RecyclerView.Adapter {
     private  AdapterListener listener;
     private Context context;
     private List<IMovieHeadline> headlines;
+    private List<Boolean> selectedRows;
 
-    public MovieDBAdapter(List<IMovieHeadline> headlines, Context context, AdapterListener listener) {
+
+
+    public MovieDBAdapter(List<IMovieHeadline> headlines, List<IMovieHeadline> selected, Context context, AdapterListener listener) {
         this.headlines = headlines;
         this.context = context;
         this.listener = listener;
+     /*   selectedRows = new ArrayList<>();
+        for (int i = 0; i < headlines.size(); i++) {
+            selectedRows.set(i, false);
+        }
+
+        for (int i = 0; i < selected.size(); i++) {
+            this.selectedRows.set(i, selected.get(i).getIsSelected());
+        }*/
     }
 
     @NonNull
@@ -37,8 +50,8 @@ public class MovieDBAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        MyViewHolder myHolder = (MyViewHolder) holder;
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        final MyViewHolder myHolder = (MyViewHolder) holder;
         IMovieHeadline headline = headlines.get(position);
         myHolder.title.setText(headline.getTitle());
         ImageView poster = myHolder.poster;
@@ -46,15 +59,33 @@ public class MovieDBAdapter extends RecyclerView.Adapter {
 
         Picasso.get().load(url).into(poster);
 
+        if(selectedRows.get(position)) {
+            myHolder.parent.setBackgroundColor(0xAAFFFF00);
+        } else {
+            myHolder.parent.setBackgroundColor(0x00000000);
+        }
+
         myHolder.parent.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                updateUI(position, myHolder);
 
+                listener.onLongClicked(headlines.get(position));
 
                 return false;
             }
         });
 
+    }
+
+    private void updateUI(int position, MyViewHolder myHolder) {
+        if(! selectedRows.get(position)){ // if selectedRows is false
+            selectedRows.set(position, true);
+            myHolder.parent.setBackgroundColor(0xAAFFFF00);
+        } else {
+            selectedRows.set(position, false);
+            myHolder.parent.setBackgroundColor(0x00000000);
+        }
     }
 
     @Override

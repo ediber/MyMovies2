@@ -44,7 +44,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAddClicked() {
                 // move to MovieDBFragment
-                MovieDBFragment fragment = MovieDBFragment.newInstance();
+                MovieDBFragment fragment = MovieDBFragment.newInstance(new MovieDBFragment.FragmentListener() {
+                    @Override
+                    public void onSaveClicked() {
+                        // move to selectedMoviesFragment
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        transaction.add(R.id.main_frame, selectedMoviesFragment).commit();
+                    }
+                });
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_frame, fragment).commit();
             }

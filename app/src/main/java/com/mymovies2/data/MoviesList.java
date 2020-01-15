@@ -54,7 +54,7 @@ public class MoviesList {
         private int vote_count;
         private boolean video;
         private String poster_path;
-        private int id;
+        private String id;
         private boolean adult;
         private String backdrop_path;
         private String original_language;
@@ -63,6 +63,8 @@ public class MoviesList {
         private double vote_average;
         private String overview;
         private String release_date;
+
+        private boolean isSelected;
 
         public double getPopularity() {
             return popularity;
@@ -92,15 +94,25 @@ public class MoviesList {
             return poster_path;
         }
 
+        @Override
+        public boolean getIsSelected() {
+            return isSelected;
+        }
+
+        @Override
+        public void setIsSelected(boolean selected) {
+            this.isSelected = selected;
+        }
+
         public void setPoster_path(String poster_path) {
             this.poster_path = poster_path;
         }
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 
