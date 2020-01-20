@@ -27,18 +27,15 @@ public class MovieDBAdapter extends RecyclerView.Adapter {
 
 
 
-    public MovieDBAdapter(List<IMovieHeadline> headlines, List<IMovieHeadline> selected, Context context, AdapterListener listener) {
+    public MovieDBAdapter(List<IMovieHeadline> headlines, Context context, AdapterListener listener) {
         this.headlines = headlines;
         this.context = context;
         this.listener = listener;
-     /*   selectedRows = new ArrayList<>();
-        for (int i = 0; i < headlines.size(); i++) {
-            selectedRows.set(i, false);
-        }
 
-        for (int i = 0; i < selected.size(); i++) {
-            this.selectedRows.set(i, selected.get(i).getIsSelected());
-        }*/
+        selectedRows = new ArrayList<>();
+        for (int i = 0; i < headlines.size(); i++) {
+            selectedRows.add(headlines.get(i).getIsSelected());
+        }
     }
 
     @NonNull

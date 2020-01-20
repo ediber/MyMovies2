@@ -18,14 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SelectedAdapter extends RecyclerView.Adapter {
 
+    private AdapterListener listener;
     private Context context;
-  //  private List<String> lst;           //
     private List<IMovieHeadline> headlines;
 
-    public SelectedAdapter(Context context, List<IMovieHeadline> headlines) {
-//        lst = Arrays.asList(new String[]{"s", "dd", "gggg"});
+    public SelectedAdapter(Context context, List<IMovieHeadline> headlines, AdapterListener listener) {
         this.headlines = headlines;
         this.context = context;
+        this.listener = listener;
     }
 
     @NonNull
@@ -39,13 +39,21 @@ public class SelectedAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         MyViewHolder myHolder = ((MyViewHolder)holder);
-        TextView title = myHolder.title;
+        final TextView title = myHolder.title;
         ImageView image = myHolder.image;
-        IMovieHeadline movie = headlines.get(position);
+        View parent = myHolder.parent;
+        final IMovieHeadline movie = headlines.get(position);
         title.setText(movie.getTitle());
 
         String url = "https://image.tmdb.org/t/p/original///" + movie.getPoster_path();
         Picasso.get().load(url).into(image);
+
+        parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClicked(movie.getId());
+            }
+        });
 
     }
 
@@ -59,11 +67,17 @@ public class SelectedAdapter extends RecyclerView.Adapter {
 
         private ImageView image;
         public TextView title;
+        public View parent;
 
         public MyViewHolder(View view) {
             super(view);
             title = view.findViewById(R.id.selected_row_title);
             image = view.findViewById(R.id.selected_row_poster);
+            parent = view.findViewById(R.id.selected_row_parent);
         }
+    }
+
+    public interface AdapterListener{
+        void onItemClicked(String id);
     }
 }

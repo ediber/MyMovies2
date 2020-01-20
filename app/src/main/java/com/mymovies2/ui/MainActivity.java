@@ -49,9 +49,17 @@ public class MainActivity extends AppCompatActivity {
                     public void onSaveClicked() {
                         // move to selectedMoviesFragment
                         FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        transaction.add(R.id.main_frame, selectedMoviesFragment).commit();
+                      //  FragmentTransaction transaction = fragmentManager.beginTransaction().addToBackStack(null);
+                        transaction.replace(R.id.main_frame, selectedMoviesFragment).commit();
                     }
                 });
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.main_frame, fragment).commit();
+            }
+
+            @Override
+            public void onItemClicked(String id) {
+                DetailsFragment fragment = DetailsFragment.newInstance();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_frame, fragment).commit();
             }
@@ -60,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         // move to selectedMoviesFragment
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.main_frame, selectedMoviesFragment).commit();
+        transaction.replace(R.id.main_frame, selectedMoviesFragment).commit();
 
         listener = new DAO.IMoviesListListener() {
             @Override
@@ -76,6 +84,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
 
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

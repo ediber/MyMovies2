@@ -28,16 +28,24 @@ public class DAO {
     public void getMoviesList(IMoviesListListener headlinesListener){
         _headlinesListener = headlinesListener;
 
-        GetMoviesTask task = new GetMoviesTask(new GetMoviesTask.IMoviesListListener() {
+        List<IMovieHeadline> containerHeadlines = container.getMoviesHeadlines();
+        if(containerHeadlines.size() > 0){
+            _headlinesListener.onMoviesReady(containerHeadlines);
+        }
+        else {
+            GetMoviesTask task = new GetMoviesTask(new GetMoviesTask.IMoviesListListener() {
 
-            @Override
-            public void onMoviesReady(MoviesList movies) {
-                List<IMovieHeadline> headlines = movies.getHeadlineResults();
-                container.setHeadlines(headlines);
-                _headlinesListener.onMoviesReady(headlines);
-            }
-        });
-        task.execute(); // start doingBackGround
+                @Override
+                public void onMoviesReady(MoviesList movies) {
+                    List<IMovieHeadline> headlines = movies.getHeadlineResults();
+                    container.setHeadlines(headlines);
+                    _headlinesListener.onMoviesReady(headlines);
+                }
+            });
+            task.execute(); // start doingBackGround
+        }
+
+
     }
 
     public void changeSelected(IMovieHeadline headline) {

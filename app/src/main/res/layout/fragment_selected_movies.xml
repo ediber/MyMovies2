@@ -16,8 +16,8 @@
             android:id="@+id/selected_movies_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="168dp"
-            android:layout_marginTop="132dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="84dp"
             android:text="Add"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/selected_movies_recycler" />

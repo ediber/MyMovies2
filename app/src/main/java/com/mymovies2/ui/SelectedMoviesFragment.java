@@ -50,7 +50,12 @@ public class SelectedMoviesFragment extends Fragment {
          });
 
         RecyclerView recycler = view.findViewById(R.id.selected_movies_recycler);
-        SelectedAdapter adapter = new SelectedAdapter(getContext(), DAO.getInstance().getSelectedMovies());
+        SelectedAdapter adapter = new SelectedAdapter(getContext(), DAO.getInstance().getSelectedMovies(), new SelectedAdapter.AdapterListener() {
+            @Override
+            public void onItemClicked(String id) {
+                listener.onItemClicked(id);
+            }
+        });
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -60,7 +65,10 @@ public class SelectedMoviesFragment extends Fragment {
 
     public interface fragmentInteractionListener{
         void onAddClicked();
+        void onItemClicked(String id);
     }
+
+
 
 
 

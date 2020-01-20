@@ -36,4 +36,8 @@ class Container {
         }
         return selected;
     }
+
+    public List<IMovieHeadline> getMoviesHeadlines() {
+        return headlines;
+    }
 }
