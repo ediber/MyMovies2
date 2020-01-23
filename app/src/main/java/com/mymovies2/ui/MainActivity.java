@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onItemClicked(String id) {
-                DetailsFragment fragment = DetailsFragment.newInstance();
+                DetailsFragment fragment = DetailsFragment.newInstance(id);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_frame, fragment).commit();
             }

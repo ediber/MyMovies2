@@ -52,8 +52,8 @@ public class MovieDBAdapter extends RecyclerView.Adapter {
         IMovieHeadline headline = headlines.get(position);
         myHolder.title.setText(headline.getTitle());
         ImageView poster = myHolder.poster;
-        String url = "https://image.tmdb.org/t/p/original///" + headline.getPoster_path();
 
+        String url = "https://image.tmdb.org/t/p/original///" + headline.getPoster_path();
         Picasso.get().load(url).into(poster);
 
         if(selectedRows.get(position)) {

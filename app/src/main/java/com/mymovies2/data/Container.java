@@ -40,4 +40,13 @@ class Container {
     public List<IMovieHeadline> getMoviesHeadlines() {
         return headlines;
     }
+
+    public Movie getMovieById(String id) {
+        for (IMovieHeadline headline : headlines) {
+            if(headline.getId().equals(id)){
+                return  (Movie)headline;
+            }
+        }
+        return null;
+    }
 }

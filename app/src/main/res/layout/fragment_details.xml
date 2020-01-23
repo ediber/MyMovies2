@@ -10,21 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/details_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="112dp"
-            android:text="details_date"
-            app:layout_constraintStart_toStartOf="@+id/details_name"
-            app:layout_constraintTop_toBottomOf="@+id/details_name" />
-
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/details_imageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginStart="108dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="32dp"
             android:src="@mipmap/ic_launcher"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,49 +24,51 @@
             android:id="@+id/details_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="20dp"
             android:text="details_name"
-            app:layout_constraintStart_toStartOf="@+id/imageView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintStart_toStartOf="@+id/details_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/details_imageView" />
 
         <TextView
-            android:id="@+id/release_date"
+            android:id="@+id/details_release_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="108dp"
-            android:layout_marginBottom="60dp"
+            android:layout_marginTop="20dp"
             android:text="release_date"
-            app:layout_constraintBottom_toTopOf="@+id/details_date"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/details_name"
+            app:layout_constraintTop_toBottomOf="@+id/details_name" />
 
         <TextView
-            android:id="@+id/popularity"
+            android:id="@+id/details_popularity"
             android:layout_width="108dp"
             android:layout_height="39dp"
-            android:layout_marginEnd="200dp"
-            android:layout_marginBottom="280dp"
+            android:layout_marginTop="20dp"
             android:text="popularity"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/details_release_date"
+            app:layout_constraintTop_toBottomOf="@+id/details_release_date" />
 
         <TextView
-            android:id="@+id/original_language"
+            android:id="@+id/details_original_language"
             android:layout_width="214dp"
             android:layout_height="35dp"
-            android:layout_marginEnd="124dp"
-            android:layout_marginBottom="212dp"
+            android:layout_marginTop="20dp"
             android:text="original_language"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/details_popularity"
+            app:layout_constraintTop_toBottomOf="@+id/details_popularity" />
 
         <TextView
-            android:id="@+id/overview"
-            android:layout_width="70dp"
-            android:layout_height="22dp"
-            android:layout_marginStart="108dp"
-            android:layout_marginBottom="140dp"
+            android:id="@+id/details_overview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="20dp"
+            android:singleLine="false"
             android:text="overview"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/details_original_language" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

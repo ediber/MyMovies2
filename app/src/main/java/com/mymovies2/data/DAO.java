@@ -56,6 +56,10 @@ public class DAO {
         return container.getSelectedMovies();
     }
 
+    public Movie getMovieById(String id) {
+        return container.getMovieById(id);
+    }
+
     public interface IMoviesListListener{
         void onMoviesReady(List<IMovieHeadline> headlines);
     }
