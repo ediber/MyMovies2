@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.dao_test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DAO.getInstance().getMoviesList(listener);
+                DAO.getInstance(getApplicationContext()).getMoviesList(listener);
             }
         });
 

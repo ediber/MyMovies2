@@ -1,14 +1,31 @@
 package com.mymovies2.data;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmList;
+
 class Container {
 
+    private  Realm realm;
     private List<IMovieHeadline> headlines;
 
-    public Container() {
-        this.headlines = new ArrayList<>();
+    public Container(Context context) {
+      //  this.headlines = new ArrayList<>();
+
+        // Initialize Realm (just once per application)
+        Realm.init(context);
+
+// Get a Realm instance for this thread
+        realm = Realm.getDefaultInstance();
+
+        this.headlines = (List<IMovieHeadline>) realm.where(Movie.class);
+        if(headlines == null){
+            headlines = new RealmList();
+        }
     }
 
     public void setHeadlines(List<IMovieHeadline> headlines) {

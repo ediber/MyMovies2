@@ -58,7 +58,7 @@ public class DetailsFragment extends Fragment {
         originalLanguage = (TextView) view.findViewById(R.id.details_original_language);
         overview = (TextView) view.findViewById(R.id.details_overview);
 
-        Movie movie = DAO.getInstance().getMovieById(id);
+        Movie movie = DAO.getInstance(getContext()).getMovieById(id);
 
         name.setText(movie.getTitle());
         releaseDate.setText(movie.getRelease_date());

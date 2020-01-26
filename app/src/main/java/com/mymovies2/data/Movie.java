@@ -1,6 +1,8 @@
 package com.mymovies2.data;
 
-public class Movie implements IMovieHeadline {
+import io.realm.RealmObject;
+
+public class Movie extends RealmObject implements IMovieHeadline {
     /**
      * popularity : 18.405
      * vote_count : 2180

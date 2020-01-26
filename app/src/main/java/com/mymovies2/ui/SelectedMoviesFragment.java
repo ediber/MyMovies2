@@ -50,7 +50,7 @@ public class SelectedMoviesFragment extends Fragment {
          });
 
         RecyclerView recycler = view.findViewById(R.id.selected_movies_recycler);
-        SelectedAdapter adapter = new SelectedAdapter(getContext(), DAO.getInstance().getSelectedMovies(), new SelectedAdapter.AdapterListener() {
+        SelectedAdapter adapter = new SelectedAdapter(getContext(), DAO.getInstance(getContext()).getSelectedMovies(), new SelectedAdapter.AdapterListener() {
             @Override
             public void onItemClicked(String id) {
                 listener.onItemClicked(id);

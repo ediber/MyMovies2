@@ -49,13 +49,13 @@ public class MovieDBFragment extends Fragment {
         save = view.findViewById(R.id.movie_db_save);
 
 
-        DAO.getInstance().getMoviesList(new DAO.IMoviesListListener() {
+        DAO.getInstance(getContext()).getMoviesList(new DAO.IMoviesListListener() {
             @Override
             public void onMoviesReady(List<IMovieHeadline> headlines) {
                 MovieDBAdapter adapter = new MovieDBAdapter(headlines, getContext(), new MovieDBAdapter.AdapterListener() {
                     @Override
                     public void onLongClicked(IMovieHeadline headline) {
-                        DAO.getInstance().changeSelected(headline);
+                        DAO.getInstance(getContext()).changeSelected(headline);
                     }
                 });
                 recycler.setAdapter(adapter);

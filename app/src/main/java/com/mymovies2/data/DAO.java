@@ -1,5 +1,7 @@
 package com.mymovies2.data;
 
+import android.content.Context;
+
 import com.mymovies2.GetMoviesTask;
 
 import java.util.List;
@@ -7,20 +9,22 @@ import java.util.List;
 public class DAO {
     // static variable single_instance of type Singleton
     private static DAO single_instance = null;
+    private final Context context;
     private Container container;
     private IMoviesListListener _headlinesListener;
 
 
     // private constructor restricted to this class itself
-    private DAO() {
-        container = new Container();
+    private DAO(Context context) {
+        container = new Container(context);
+        this.context = context;
     }
 
     // static method to create instance of Singleton class
-    public static DAO getInstance()
+    public static DAO getInstance(Context context)
     {
         if (single_instance == null)
-            single_instance = new DAO();
+            single_instance = new DAO(context);
 
         return single_instance;
     }
