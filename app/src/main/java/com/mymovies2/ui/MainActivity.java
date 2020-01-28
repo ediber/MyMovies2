@@ -50,25 +50,25 @@ public class MainActivity extends AppCompatActivity {
                         // move to selectedMoviesFragment
                         FragmentTransaction transaction = fragmentManager.beginTransaction();
                       //  FragmentTransaction transaction = fragmentManager.beginTransaction().addToBackStack(null);
-                        transaction.replace(R.id.main_frame, selectedMoviesFragment).commit();
+                        transaction.replace(R.id.main_frame, selectedMoviesFragment).addToBackStack(null).commit();
                     }
                 });
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.main_frame, fragment).commit();
+                transaction.replace(R.id.main_frame, fragment).addToBackStack(null).commit();
             }
 
             @Override
             public void onItemClicked(String id) {
                 DetailsFragment fragment = DetailsFragment.newInstance(id);
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.main_frame, fragment).commit();
+                transaction.replace(R.id.main_frame, fragment).addToBackStack(null).commit();
             }
         });
 
         fragmentManager = getSupportFragmentManager();
         // move to selectedMoviesFragment
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_frame, selectedMoviesFragment).commit();
+        transaction.replace(R.id.main_frame, selectedMoviesFragment).addToBackStack(null).commit();
 
         listener = new DAO.IMoviesListListener() {
             @Override
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
-        if (fm.getBackStackEntryCount() > 0) {
+        if (fm.getBackStackEntryCount() > 1) {
             fm.popBackStack();
         } else {
             super.onBackPressed();
