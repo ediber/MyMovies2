@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import com.mymovies2.R;
 import com.mymovies2.adapters.SelectedAdapter;
 import com.mymovies2.data.DAO;
+import com.mymovies2.data.IMovieHeadline;
+
+import java.util.List;
 
 
 public class SelectedMoviesFragment extends Fragment {
@@ -49,8 +52,19 @@ public class SelectedMoviesFragment extends Fragment {
              }
          });
 
-        RecyclerView recycler = view.findViewById(R.id.selected_movies_recycler);
+        final RecyclerView recycler = view.findViewById(R.id.selected_movies_recycler);
 
+        DAO.getInstance(getContext()).getMoviesList(new DAO.IMoviesListListener() {
+            @Override
+            public void onMoviesReady(List<IMovieHeadline> headlines) {
+                buildAdapter(recycler);
+            }
+        });
+
+        return view;
+    }
+
+    private void buildAdapter(RecyclerView recycler) {
         SelectedAdapter adapter = new SelectedAdapter(getContext(), DAO.getInstance(getContext()).getSelectedMovies(), new SelectedAdapter.AdapterListener() {
             @Override
             public void onItemClicked(String id) {
@@ -59,9 +73,6 @@ public class SelectedMoviesFragment extends Fragment {
         });
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-        return view;
     }
 
     public interface fragmentInteractionListener{
