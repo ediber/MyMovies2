@@ -68,27 +68,29 @@ class Container {
 
     public void changeSelected(IMovieHeadline headline) {
         for (final IMovieHeadline myHeadline : headlines) {
-            if (myHeadline.getId().equals(headline.getId())) {
-                if (myHeadline.getIsSelected()) {  // selected, deleting
-                   // myHeadline.setIsSelected(false);
-                    realm.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            RealmResults<MovieID> result = realm.where(MovieID.class).equalTo("id", myHeadline.getId()).findAll();
-                            result.deleteAllFromRealm();
-                        }
-                    });
-
-                } else { // not selected
-                  //  myHeadline.setIsSelected(true);
-                    realm.beginTransaction();
-                    MovieID id = new MovieID(myHeadline.getId());
-                    realm.copyToRealm(id);
-                    realm.commitTransaction();
-                }
+            if (myHeadline.getId().equals(headline.getId())) { // find headline in the class which has the same id of the selected headline
+                changeSpecificMovie(myHeadline);
             }
         }
         this.headlines = refreshSelected(headlines);
+    }
+
+    private void changeSpecificMovie(final IMovieHeadline myHeadline) {
+        if (myHeadline.getIsSelected()) {  // selected, deleting
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    RealmResults<MovieID> result = realm.where(MovieID.class).equalTo("id", myHeadline.getId()).findAll();
+                    result.deleteAllFromRealm();
+                }
+            });
+
+        } else { // not selected
+            realm.beginTransaction();
+            MovieID id = new MovieID(myHeadline.getId());
+            realm.copyToRealm(id);
+            realm.commitTransaction();
+        }
     }
 
     public List<IMovieHeadline> getSelectedMovies() {
