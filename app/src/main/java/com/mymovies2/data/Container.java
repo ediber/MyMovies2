@@ -13,7 +13,12 @@ class Container {
 
     private Realm realm;
     private List<IMovieHeadline> headlines;
-    private RealmResults<MovieID> selectedIds;
+    //private RealmResults<MovieID> selectedIds;
+    private RealmResults<User> users;
+    private RealmResults<Selected_User> selected_user;
+    private User currentUser;
+
+
 
     public Container(Context context) {
           this.headlines = new ArrayList<>();
@@ -33,8 +38,9 @@ class Container {
 
         realm = Realm.getInstance(config);
 
-      //  headlines = realm.where(Movie.class).findAll();
-        selectedIds = realm.where(MovieID.class).findAll();
+    //    selectedIds = realm.where(MovieID.class).findAll();
+        users = realm.where(User.class).findAll();
+        selected_user = realm.where(Selected_User.class).findAll();
 
     }
 
@@ -56,8 +62,9 @@ class Container {
         }
 
         for (IMovieHeadline headline : headlines){
-            for (MovieID id : selectedIds) {
-                if(id.getId().equals(headline.getId())){
+            for (Selected_User selected_user : selected_user) {
+                if(selected_user.getEmail().equals(currentUser.getEmail()) &&
+                        selected_user.getMovieId().equals(headline.getId())){
                     headline.setIsSelected(true);
                 }
             }
@@ -80,6 +87,26 @@ class Container {
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
+                    RealmResults<Selected_User> result = realm.where(Selected_User.class).equalTo("movieId", myHeadline.getId())
+                            .equalTo("email", currentUser.getEmail()).findAll();
+                    result.deleteAllFromRealm();
+                }
+            });
+
+        } else { // not selected
+            realm.beginTransaction();
+            Selected_User selected_user = new Selected_User(myHeadline.getId(), currentUser.getEmail());
+            realm.copyToRealm(selected_user);
+            realm.commitTransaction();
+        }
+    }
+
+
+   /* private void changeSpecificMovie(final IMovieHeadline myHeadline) {
+        if (myHeadline.getIsSelected()) {  // selected, deleting
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
                     RealmResults<MovieID> result = realm.where(MovieID.class).equalTo("id", myHeadline.getId()).findAll();
                     result.deleteAllFromRealm();
                 }
@@ -91,7 +118,7 @@ class Container {
             realm.copyToRealm(id);
             realm.commitTransaction();
         }
-    }
+    }*/
 
     public List<IMovieHeadline> getSelectedMovies() {
         this.headlines = refreshSelected(headlines);
@@ -122,5 +149,24 @@ class Container {
             }
         }
         return null;
+    }
+
+    public void addUser(User user) {
+        realm.beginTransaction();
+        realm.copyToRealm(user);
+        users = realm.where(User.class).findAll();
+        realm.commitTransaction();
+    }
+
+    public RealmResults<User> getUsers() {
+        return users;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 }

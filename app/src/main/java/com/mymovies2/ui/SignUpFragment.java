@@ -1,7 +1,6 @@
 package com.mymovies2.ui;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mymovies2.R;
+import com.mymovies2.data.DAO;
+import com.mymovies2.data.User;
 
 
 public class SignUpFragment extends Fragment {
@@ -55,17 +56,11 @@ public class SignUpFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(email.getText().toString().equals("") || ! email.getText().toString().contains("@")){
-                    Toast.makeText(getContext(), "please insert valid email", Toast.LENGTH_LONG).show();
-                } else if(firstName.getText().toString().equals("")){
-                    Toast.makeText(getContext(), "please insert first name", Toast.LENGTH_LONG).show();
-                } else if(lastName.getText().toString().equals("")){
-                    Toast.makeText(getContext(), "please insert last name", Toast.LENGTH_LONG).show();
-
-                } else if(password1.getText().toString().equals("")){
-
-                } else if(firstName.getText().toString().equals("")){
-
+                if(validityCheck()){
+                    User user = new User (email.getText().toString(), firstName.getText().toString(),
+                            lastName.getText().toString(), password1.getText().toString());
+                    DAO.getInstance(getContext()).addUser(user);
+                    mListener.onSignUpSuccess();
                 }
             }
         });
@@ -73,12 +68,27 @@ public class SignUpFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onSignUpInteraction(uri);
+    private boolean validityCheck() {
+        boolean b = false;
+        if(email.getText().toString().equals("") || ! email.getText().toString().contains("@")){
+            Toast.makeText(getContext(), "please insert valid email", Toast.LENGTH_LONG).show();
+        } else if(firstName.getText().toString().equals("")){
+            Toast.makeText(getContext(), "please insert first name", Toast.LENGTH_LONG).show();
+        } else if(lastName.getText().toString().equals("")){
+            Toast.makeText(getContext(), "please insert last name", Toast.LENGTH_LONG).show();
+        } else if(password1.getText().toString().equals("")){
+            Toast.makeText(getContext(), "please insert password", Toast.LENGTH_LONG).show();
+        } else if(password2.getText().toString().equals("")){
+            Toast.makeText(getContext(), "please confirm", Toast.LENGTH_LONG).show();
+        } else if(! password1.getText().toString().equals(password2.getText().toString())){
+            Toast.makeText(getContext(), "passwords not mach", Toast.LENGTH_LONG).show();
+        } else {
+          b = true;
         }
+        return b;
     }
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -109,6 +119,6 @@ public class SignUpFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onSignUpInteraction(Uri uri);
+        void onSignUpSuccess();
     }
 }

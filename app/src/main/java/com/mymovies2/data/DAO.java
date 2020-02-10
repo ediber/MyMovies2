@@ -6,6 +6,8 @@ import com.mymovies2.GetMoviesTask;
 
 import java.util.List;
 
+import io.realm.RealmResults;
+
 public class DAO {
     // static variable single_instance of type Singleton
     private static DAO single_instance = null;
@@ -66,6 +68,34 @@ public class DAO {
 
     public Movie getMovieById(String id) {
         return container.getMovieById(id);
+    }
+
+    public void addUser(User user) {
+        container.setCurrentUser(user);
+        container.addUser(user);
+    }
+
+    public String getCurrentUserName() {
+        return container.getCurrentUser().getFirstName();
+    }
+
+    public boolean isUserExist(String email, String password) {
+        RealmResults<User> users = container.getUsers();
+        for (User user : users) {
+            if(user.getEmail().equals(email) && user.getPassword().equals(password)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void findCurrentUser(String email) {
+        RealmResults<User> users = container.getUsers();
+        for (User user : users) {
+            if(user.getEmail().equals(email)){
+                container.setCurrentUser(user);
+            }
+        }
     }
 
     public interface IMoviesListListener{

@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.mymovies2.data.DAO;
 import com.mymovies2.R;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private SelectedMoviesFragment selectedMoviesFragment;
     private FragmentManager fragmentManager;
     private DAO.IMoviesListListener listener;
+    private TextView user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         frame = findViewById(R.id.main_frame);
+        user = findViewById(R.id.main_current_user);
 
         selectedMoviesFragment = SelectedMoviesFragment.newInstance(new SelectedMoviesFragment.fragmentInteractionListener() {
             @Override
@@ -83,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
                 DAO.getInstance(getApplicationContext()).getMoviesList(listener);
             }
         });
+
+        String firstName = DAO.getInstance(getApplicationContext()).getCurrentUserName();
+        user.setText("hello " + firstName);
 
     }
 

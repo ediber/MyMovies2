@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -28,8 +29,9 @@ public class LoginActivity extends AppCompatActivity implements SignUpFragment.O
             }
 
             @Override
-            public void onLoginSucess(User user) {
-
+            public void onLoginSuccess() {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -39,7 +41,8 @@ public class LoginActivity extends AppCompatActivity implements SignUpFragment.O
     }
 
     @Override
-    public void onSignUpInteraction(Uri uri) {
-
+    public void onSignUpSuccess() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }
