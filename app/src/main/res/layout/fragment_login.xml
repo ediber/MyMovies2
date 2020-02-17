@@ -19,7 +19,6 @@
             android:ems="10"
             android:hint="email"
             android:inputType="textEmailAddress"
-            android:text="bar462@gmail.com"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
