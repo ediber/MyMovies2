@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.mymovies2.AlertDialogHelper;
 import com.mymovies2.data.DAO;
 import com.mymovies2.R;
 import com.mymovies2.data.IMovieHeadline;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private DAO.IMoviesListListener listener;
     private TextView user;
+    private View logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,22 +45,24 @@ public class MainActivity extends AppCompatActivity {
 
         frame = findViewById(R.id.main_frame);
         user = findViewById(R.id.main_current_user);
+        logout = findViewById(R.id.main_logout);
 
         selectedMoviesFragment = SelectedMoviesFragment.newInstance(new SelectedMoviesFragment.fragmentInteractionListener() {
             @Override
             public void onAddClicked() {
                 // move to MovieDBFragment
-                MovieDBFragment fragment = MovieDBFragment.newInstance(new MovieDBFragment.FragmentListener() {
+                MovieDBFragment dbfragment = MovieDBFragment.newInstance(new MovieDBFragment.FragmentListener() {
                     @Override
                     public void onSaveClicked() {
                         // move to selectedMoviesFragment
                         FragmentTransaction transaction = fragmentManager.beginTransaction();
-                      //  FragmentTransaction transaction = fragmentManager.beginTransaction().addToBackStack(null);
-                        transaction.replace(R.id.main_frame, selectedMoviesFragment).addToBackStack(null).commit();
+   //                     transaction.replace(R.id.main_frame, selectedMoviesFragment).addToBackStack(null).commit();
+                        transaction.replace(R.id.main_frame, selectedMoviesFragment).commit();
                     }
                 });
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.replace(R.id.main_frame, fragment).addToBackStack(null).commit();
+                transaction.replace(R.id.main_frame, dbfragment).addToBackStack(null).commit();
+        //        transaction.replace(R.id.main_frame, fragment).commit();
             }
 
             @Override
@@ -71,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         // move to selectedMoviesFragment
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_frame, selectedMoviesFragment).addToBackStack(null).commit();
+        transaction.replace(R.id.main_frame, selectedMoviesFragment).addToBackStack("selected_transaction").commit();
 
         listener = new DAO.IMoviesListListener() {
             @Override
@@ -90,15 +95,39 @@ public class MainActivity extends AppCompatActivity {
         String firstName = DAO.getInstance(getApplicationContext()).getCurrentUserName();
         user.setText("hello " + firstName);
 
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
     }
+
 
     @Override
     public void onBackPressed() {
-        FragmentManager fm = getSupportFragmentManager();
-        if (fm.getBackStackEntryCount() > 1) {
-            fm.popBackStack();
+        if (fragmentManager.getBackStackEntryCount() > 1) {
+            fragmentManager.popBackStack();
         } else {
-            super.onBackPressed();
+            new AlertDialogHelper(this, new AlertDialogHelper.DialogListener() {
+                @Override
+                public void onYesClicked() {
+                    //MainActivity.super.onBackPressed();
+                 //   finish();
+
+                    Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+                    homeIntent.addCategory( Intent.CATEGORY_HOME );
+                    homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(homeIntent);
+                }
+
+                @Override
+                public void onNoClicked() {
+
+                }
+            }).showDialog();
         }
     }
 }

@@ -8,9 +8,9 @@
 
     <FrameLayout
         android:id="@+id/main_frame"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_current_user">
 
@@ -31,9 +31,20 @@
         android:id="@+id/main_current_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="164dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="160dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/main_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="logout"
+        app:layout_constraintTop_toBottomOf="@+id/main_frame"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+         />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
